@@ -58,7 +58,7 @@ public class LoginPanel extends JPanel {
         // ==========================================================
         // INTERACTIVE DATA INPUT FIELDS
         // ==========================================================
-        
+
         // USERNAME INPUT FIELD BLOCK
         JLabel lblUser = new JLabel("Username");
         lblUser.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -94,11 +94,11 @@ public class LoginPanel extends JPanel {
         // ==========================================================
         // ACTION BUTTONS (Sleek corporate styling)
         // ==========================================================
-        
+
         // 1. AUTHENTICATE LOGIN BUTTON
         JButton btnLogin = new JButton("AUTHENTICATE SYSTEM ACCESS");
         btnLogin.setBackground(new Color(212, 175, 55)); // Clean Luxury Gold Button
-        btnLogin.setForeground(new Color(15, 32, 53));    // Dark text for premium contrast
+        btnLogin.setForeground(new Color(15, 32, 53)); // Dark text for premium contrast
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnLogin.setFocusPainted(false);
         btnLogin.setBorderPainted(false);
@@ -110,7 +110,7 @@ public class LoginPanel extends JPanel {
         btnLogin.addActionListener(e -> {
             String user = txtUser.getText().trim();
             String pass = new String(txtPass.getPassword()).trim();
-            
+
             ArrayList<String> users = DBContext.getUsers();
             boolean authenticated = false;
 
@@ -126,12 +126,14 @@ public class LoginPanel extends JPanel {
                 }
             }
             if (!authenticated) {
-                JOptionPane.showMessageDialog(this, "Invalid operational credentials provided.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Invalid operational credentials provided.", "Access Denied",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
-    // Smoothly handles painting your restaurant background scene over the whole screen space
+    // Smoothly handles painting your restaurant background scene over the whole
+    // screen space
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
