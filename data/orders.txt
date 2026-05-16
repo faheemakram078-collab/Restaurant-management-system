@@ -1,0 +1,5 @@
+--- Customer Bill ---
+Item: Burger
+Quantity: 3
+Total Bill: Rs. 540
+-----------------------------------

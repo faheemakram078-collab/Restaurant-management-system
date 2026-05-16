@@ -1,0 +1,4 @@
+101,Biryani,250
+102,Double Burger,180
+103,Special Pizza,450
+104,Mint Margarita,120
