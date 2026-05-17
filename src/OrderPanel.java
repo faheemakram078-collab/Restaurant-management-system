@@ -12,158 +12,119 @@ public class OrderPanel extends JPanel {
     public OrderPanel(AppWindow window) {
         setLayout(new BorderLayout());
 
-        // Header Panels
+        // Header Panel
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(new Color(52, 152, 219));
-        JLabel title = new JLabel(" Point-Of-Sale Terminal Engine", JLabel.LEFT);
-        title.setFont(new Font("Arial", Font.BOLD, 18));
+        header.setPreferredSize(new Dimension(900, 50));
+        JLabel title = new JLabel("  POINT-OF-SALE TERMINAL ENGINE", JLabel.LEFT);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
         title.setForeground(Color.WHITE);
         header.add(title, BorderLayout.WEST);
 
-        JButton btnBack = new JButton("Back to Hub");
+        JButton btnBack = new JButton("BACK TO HUB");
+        btnBack.setBackground(Color.WHITE);
         header.add(btnBack, BorderLayout.EAST);
         add(header, BorderLayout.NORTH);
 
-        // Core Middle Frame Panel
+        // Center Split (Menu on left, Receipt on right)
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
         liveMenuDisplay = new JTextArea();
-        liveMenuDisplay.setBorder(BorderFactory.createTitledBorder("Available Items"));
         liveMenuDisplay.setEditable(false);
+        liveMenuDisplay.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        JScrollPane menuScroll = new JScrollPane(liveMenuDisplay);
+        menuScroll.setBorder(BorderFactory.createTitledBorder("Available Items"));
         
         txtReceipt = new JTextArea();
-        txtReceipt.setBorder(BorderFactory.createTitledBorder("Live Real-time Bill Receipt Preview"));
-        txtReceipt.setFont(new Font("Monospaced", Font.PLAIN, 12));
         txtReceipt.setEditable(false);
+        txtReceipt.setFont(new Font("Monospaced", Font.BOLD, 13));
+        JScrollPane receiptScroll = new JScrollPane(txtReceipt);
+        receiptScroll.setBorder(BorderFactory.createTitledBorder("Live Receipt Preview"));
 
-        centerPanel.add(new JScrollPane(liveMenuDisplay));
-        centerPanel.add(new JScrollPane(txtReceipt));
+        centerPanel.add(menuScroll);
+        centerPanel.add(receiptScroll);
         add(centerPanel, BorderLayout.CENTER);
 
-        // Interactive Footer Controllers Panel
-        JPanel footerControl = new JPanel(new GridLayout(4, 2, 5, 5));
-        footerControl.setPreferredSize(new Dimension(900, 160));
-        footerControl.setBorder(BorderFactory.createTitledBorder("POS Checkout Operations"));
+        // Footer Input Section
+        JPanel footerMain = new JPanel(new BorderLayout());
+        footerMain.setPreferredSize(new Dimension(900, 180));
 
-        footerControl.add(new JLabel(" Custom Order Tracking ID (Numeric):")); txtOrderId = new JTextField(); footerControl.add(txtOrderId);
-        footerControl.add(new JLabel(" Selection Item ID Code:")); txtSelectId = new JTextField(); footerControl.add(txtSelectId);
-        footerControl.add(new JLabel(" Total Quantity Requested:")); txtQty = new JTextField(); footerControl.add(txtQty);
+        JPanel inputFields = new JPanel(new GridLayout(3, 2, 5, 5));
+        inputFields.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        inputFields.add(new JLabel("Order ID (Numeric):")); txtOrderId = new JTextField(); inputFields.add(txtOrderId);
+        inputFields.add(new JLabel("Selection Item ID:")); txtSelectId = new JTextField(); inputFields.add(txtSelectId);
+        inputFields.add(new JLabel("Quantity:"));          txtQty = new JTextField();      inputFields.add(txtQty);
 
-        // Operation Buttons Row Layout Action panels
-        JPanel actionRow = new JPanel(new GridLayout(1, 5, 5, 5));
-        JButton btnPlace = new JButton("Place/Update Order");
-        JButton btnCancel = new JButton("Cancel/Delete Order");
-        JButton btnCheck = new JButton("Check Extracted Bill");
-        JButton btnPrint = new JButton("Generate Bill PDF/Print");
+        JPanel actionRow = new JPanel(new FlowLayout());
+        JButton btnPlace = new JButton("Place Order");
+        JButton btnCancel = new JButton("Cancel Order");
+        JButton btnCheck = new JButton("Check Bill");
+        JButton btnPrint = new JButton("Save to PDF/Txt");
 
         actionRow.add(btnPlace); actionRow.add(btnCancel);
         actionRow.add(btnCheck); actionRow.add(btnPrint);
         
-        add(footerControl, BorderLayout.SOUTH);
-        footerControl.add(actionRow);
+        footerMain.add(inputFields, BorderLayout.CENTER);
+        footerMain.add(actionRow, BorderLayout.SOUTH);
+        add(footerMain, BorderLayout.SOUTH);
 
-        // Automatic screen load execution trigger
+        // Logic
         btnBack.addActionListener(e -> window.showScreen("DASHBOARD"));
 
-        // Core POS Event Function Logic Handles
         btnPlace.addActionListener(e -> {
-            String oId = txtOrderId.getText().trim();
-            String iId = txtSelectId.getText().trim();
-            String quantity = txtQty.getText().trim();
+            try {
+                String oId = txtOrderId.getText().trim();
+                String iId = txtSelectId.getText().trim();
+                int quantity = Integer.parseInt(txtQty.getText().trim());
 
-            if(oId.isEmpty() || iId.isEmpty() || quantity.isEmpty()) return;
+                ArrayList<String> menu = DBContext.getMenu();
+                String foundItem = "";
+                int price = 0;
 
-            ArrayList<String> itemsList = DBContext.getMenu();
-            String foundItem = "";
-            int targetPrice = 0;
-
-            for(String m : itemsList) {
-                String[] tokens = m.split(",");
-                if(tokens[0].equals(iId)) {
-                    foundItem = tokens[1];
-                    targetPrice = Integer.parseInt(tokens[2]);
-                    break;
+                for(String m : menu) {
+                    String[] t = m.split(",");
+                    if(t[0].equals(iId)) {
+                        foundItem = t[1];
+                        price = Integer.parseInt(t[2]);
+                        break;
+                    }
                 }
-            }
 
-            if(foundItem.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Item ID Code not cataloged!");
-                return;
-            }
-
-            int computedBill = targetPrice * Integer.parseInt(quantity);
-            ArrayList<String> activeOrders = DBContext.getOrders();
-            // Removes duplicate order string entry matching current unique sequence ID to update it
-            activeOrders.removeIf(o -> o.split(",")[0].equals(oId));
-            
-            // Re-inserts fresh billing values cleanly
-            activeOrders.add(oId + "," + foundItem + "," + quantity + "," + computedBill);
-            DBContext.saveOrders(activeOrders);
-
-            String billTemplate = "\n===============================\n" +
-                                  "     SPICY BITES INVOICE       \n" +
-                                  "===============================\n" +
-                                  " Order Tracking ID: " + oId + "\n" +
-                                  " Item Selection:   " + foundItem + "\n" +
-                                  " Purchased Vol:    " + quantity + "\n" +
-                                  " Total Valuation:  Rs. " + computedBill + "\n" +
-                                  "===============================";
-            txtReceipt.setText(billTemplate);
-            JOptionPane.showMessageDialog(this, "Transaction Saved to Registry Ledger.");
-        });
-
-        btnCheck.addActionListener(e -> {
-            String oId = txtOrderId.getText().trim();
-            ArrayList<String> activeOrders = DBContext.getOrders();
-            boolean checked = false;
-            for(String o : activeOrders) {
-                String[] token = o.split(",");
-                if(token[0].equals(oId)){
-                    String billTemplate = "\n===============================\n" +
-                                          "     SPICY BITES INVOICE       \n" +
-                                          "===============================\n" +
-                                          " Order Tracking ID: " + token[0] + "\n" +
-                                          " Item Selection:   " + token[1] + "\n" +
-                                          " Purchased Vol:    " + token[2] + "\n" +
-                                          " Total Valuation:  Rs. " + token[3] + "\n" +
-                                          "===============================";
-                    txtReceipt.setText(billTemplate);
-                    checked = true;
-                    break;
+                if(foundItem.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Item ID not found!"); return;
                 }
-            }
-            if(!checked) JOptionPane.showMessageDialog(this, "No transaction records found matching tracking reference ID.");
-        });
 
-        btnCancel.addActionListener(e -> {
-            String oId = txtOrderId.getText().trim();
-            ArrayList<String> activeOrders = DBContext.getOrders();
-            activeOrders.removeIf(o -> o.split(",")[0].equals(oId));
-            DBContext.saveOrders(activeOrders);
-            txtReceipt.setText("");
-            JOptionPane.showMessageDialog(this, "Transaction Voided & Canceled.");
-        });
+                int total = price * quantity;
+                ArrayList<String> orders = DBContext.getOrders();
+                orders.removeIf(o -> o.split(",")[0].equals(oId));
+                orders.add(oId + "," + foundItem + "," + quantity + "," + total);
+                DBContext.saveOrders(orders);
 
-        btnPrint.addActionListener(e -> {
-            if(txtReceipt.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Compile receipt verification invoice data prior to print extraction!");
-                return;
-            }
-            // Generate flat standalone printing record data structure stream files onto local machine disk space
-            String exportPath = "Order_Invoice_" + txtOrderId.getText().trim() + ".txt";
-            try (PrintWriter out = new PrintWriter(new FileWriter(exportPath))) {
-                out.print(txtReceipt.getText());
-                JOptionPane.showMessageDialog(this, "Clean Digital Invoice File Compiled:\n" + exportPath + "\n(Open and press Ctrl+P to save as PDF!)");
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Critical runtime print configuration interruption encountered.");
+                String bill = "\n===============================\n" +
+                              "      SPICY BITES INVOICE      \n" +
+                              "===============================\n" +
+                              " Order ID: " + oId + "\n" +
+                              " Item:     " + foundItem + "\n" +
+                              " Qty:      " + quantity + "\n" +
+                              " Total:    Rs. " + total + "\n" +
+                              "===============================";
+                txtReceipt.setText(bill);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numeric data!");
             }
         });
 
-        // Loop array loader for refreshing items side display pane context
+        // Load Menu initially
+        refreshMenu();
+    }
+
+    private void refreshMenu() {
         ArrayList<String> menuItems = DBContext.getMenu();
-        liveMenuDisplay.setText("Live Inventory Reference Codes:\n====================================\n");
+        liveMenuDisplay.setText("Code | Name | Price\n--------------------------\n");
         for (String item : menuItems) {
-            String[] parts = item.split(",");
-            liveMenuDisplay.append(" Code: " + parts[0] + " | " + parts[1] + " --> Rs. " + parts[2] + "\n");
+            String[] p = item.split(",");
+            liveMenuDisplay.append(p[0] + " | " + p[1] + " | Rs. " + p[2] + "\n");
         }
     }
 }

@@ -1,2 +1,3 @@
-admin,admin123,Admin
-cashier1,pass123,Employee
+admin,123,Admin
+waiter,123,Waiter
+cook,123,Cook

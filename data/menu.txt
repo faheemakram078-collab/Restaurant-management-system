@@ -1,4 +1,18 @@
-101,Biryani,250
-102,Double Burger,180
-103,Special Pizza,450
-104,Mint Margarita,120
+101,Mufaya Special Handi,1250
+102,Mutton Peshawari Karahi,1850
+103,Beef Seekh Kebab,750
+104,VIP Chicken Biryani,450
+105,Daal Makhni,550
+106,Roghni Naan,90
+201,Crunch Burger,480
+202,Smash Beef Burger,650
+203,Peri Peri Sandwich,380
+204,Loaded Fiesta Fries,420
+205,Fajita Supreme Pizza,1150
+206,Fiery Buffalo Wings,490
+301,Tarragon Chicken Steak,1450
+302,Fettuccine Alfredo,950
+303,Fish and Chips,1100
+304,Moroccan Chicken,1350
+401,Mint Margarita,250
+402,Classic Shahi Lassi,180
