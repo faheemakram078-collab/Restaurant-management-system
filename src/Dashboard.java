@@ -1,9 +1,9 @@
 package src;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class Dashboard extends JPanel {
     private Image backgroundImage;
@@ -116,7 +116,7 @@ public class Dashboard extends JPanel {
         sidebarDrawer.add(itemAdmin);
         sidebarDrawer.add(itemLogout);
 
-        itemPos.addActionListener(e -> window.showScreen("ORDER"));
+        itemPos.addActionListener(e -> window.showScreen("JAVAPOS"));
         itemAdmin.addActionListener(e -> window.showScreen("ADMIN"));
         itemLogout.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(window, "Confirm logout?", "Logout", JOptionPane.YES_NO_OPTION);

@@ -1,7 +1,9 @@
 package src;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+
+
 
 public class AppWindow extends JFrame {
     private CardLayout cardLayout;
@@ -29,6 +31,9 @@ public class AppWindow extends JFrame {
         mainContainer.add(new AdminPanel(this), "ADMIN");
         mainContainer.add(new OrderPanel(this), "ORDER");
 
+        mainContainer.add(new JavaPOS(this), "JAVAPOS");
+
+        
         add(mainContainer);
         showScreen("LOGIN"); 
     }
