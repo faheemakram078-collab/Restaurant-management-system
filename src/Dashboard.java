@@ -15,8 +15,6 @@ public class Dashboard extends JPanel {
 
     private JPanel sidebarDrawer;
     private boolean isDrawerOpen = false;
-
-    // --- RBAC STEP 2: Move Admin button to class-level so we can hide/show it ---
     private JButton itemAdmin; 
 
     public Dashboard(AppWindow window) {
@@ -109,7 +107,7 @@ public class Dashboard extends JPanel {
         sidebarDrawer.add(drawerMenuBrand);
 
         JButton itemPos = createSidebarButton(" 💻   POS Terminal");
-        itemAdmin = createSidebarButton(" ⚙️   Admin Panel"); // Initialized here
+        itemAdmin = createSidebarButton(" ⚙️   Admin Panel"); 
         JButton itemLogout = createSidebarButton(" 🚪   Secure Logout");
 
         sidebarDrawer.add(itemPos);
@@ -118,9 +116,13 @@ public class Dashboard extends JPanel {
 
         itemPos.addActionListener(e -> window.showScreen("JAVAPOS"));
         itemAdmin.addActionListener(e -> window.showScreen("ADMIN"));
+        
         itemLogout.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(window, "Confirm logout?", "Logout", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) window.showScreen("LOGIN");
+            if (confirm == JOptionPane.YES_OPTION) {
+                window.setAuthenticatedRole("");
+                window.showScreen("LOGIN");
+            }
         });
 
         layeredMainEngine.add(mainHero, JLayeredPane.DEFAULT_LAYER);
@@ -153,18 +155,20 @@ public class Dashboard extends JPanel {
     }
 
     /**
-     * RBAC STEP 2: THE GATEKEEPER METHOD
-     * This method is called from AppWindow to restrict access.
+     * RBAC SECURITY INTERFACE
      */
     public void applySecuritySettings(String role) {
-        if (role.equalsIgnoreCase("Admin")) {
-            itemAdmin.setVisible(true); // Full access
-        } else {
-            itemAdmin.setVisible(false); // Restricted access for Waiters, Cooks, etc.
+        if (itemAdmin != null) {
+            if (role.equalsIgnoreCase("Admin")) {
+                itemAdmin.setVisible(true); 
+            } else {
+                itemAdmin.setVisible(false); 
+            }
         }
-        // Refresh the sidebar to show changes
-        sidebarDrawer.revalidate();
-        sidebarDrawer.repaint();
+        if (sidebarDrawer != null) {
+            sidebarDrawer.revalidate();
+            sidebarDrawer.repaint();
+        }
     }
 
     private JButton createSidebarButton(String text) {

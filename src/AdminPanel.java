@@ -103,19 +103,24 @@ public class AdminPanel extends JPanel {
             refreshStats();
         });
 
-        // ADD / UPDATE STAFF LOGIC
+        // ADD / UPDATE STAFF LOGIC (UPDATED WITH SHA-256 HASHING)
         btnAddEmp.addActionListener(e -> {
             String user = txtEmpUser.getText().trim();
             String pass = txtEmpPass.getText().trim();
             String role = txtEmpRole.getText().trim();
             if(user.isEmpty() || pass.isEmpty()) return;
 
+            // CRITICAL FIX: Hash the raw password before saving it to the database file
+            String hashedPassword = DBContext.hashPassword(pass);
+
             ArrayList<String> users = DBContext.getUsers();
             users.removeIf(u -> u.split(",")[0].equalsIgnoreCase(user));
-            users.add(user + "," + pass + "," + role);
+            
+            // Append the encrypted hash value instead of raw password text
+            users.add(user + "," + hashedPassword + "," + role);
             DBContext.saveUsers(users); // PERSIST TO FILE
             
-            logArea.append(">> SUCCESS: Operator '" + user + "' updated.\n");
+            logArea.append(">> SUCCESS: Operator '" + user + "' registered with encrypted password hash.\n");
             txtEmpUser.setText(""); txtEmpPass.setText(""); txtEmpRole.setText("");
             refreshStats();
         });

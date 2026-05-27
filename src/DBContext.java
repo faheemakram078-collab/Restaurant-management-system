@@ -1,6 +1,7 @@
 package src;
 
 import java.io.*;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 
 public class DBContext {
@@ -32,6 +33,26 @@ public class DBContext {
             pw.flush();
         } catch (IOException e) {
             System.out.println("Error writing to " + fileName + ": " + e.getMessage());
+        }
+    }
+
+    // =========================================================================
+    // SECURITY INFRASTRUCTURE: PASSWORD HASHING (SHA-256)
+    // =========================================================================
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes("UTF-8"));
+            
+            // Convert byte array into a readable 64-character hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            System.out.println("Error hashing password: " + e.getMessage());
+            return password; // Fallback to raw text if encryption subsystem encounters a failure
         }
     }
 
