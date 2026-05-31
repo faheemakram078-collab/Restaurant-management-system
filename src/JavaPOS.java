@@ -1,6 +1,8 @@
 package src;
  
 import java.text.MessageFormat;
+import java.util.Random;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
  
@@ -17,8 +19,16 @@ public class JavaPOS extends javax.swing.JPanel {
             jbtnExit.removeActionListener(al);
         }
         jbtnExit.addActionListener(e -> window.showScreen("DASHBOARD"));
+        generateReceiptID(); // Generate initial receipt ID on load
     }
  
+    // New Helper method to generate automatic Receipt IDs
+    private void generateReceiptID() {
+        Random rand = new Random();
+        int randomNumber = 100000 + rand.nextInt(900000); // 6-digit random number
+        jtxtBarCode.setText("REC-" + randomNumber);
+    }
+
     public void ItemCost() {
         double sum = 0;
         for (int i = 0; i < jTable1.getRowCount(); i++) {
@@ -30,22 +40,42 @@ public class JavaPOS extends javax.swing.JPanel {
         jtxtTax.setText(String.format("Rs. %.2f", cTax));
         jtxtSubTotal.setText(String.format("Rs. %.2f", cSubTotal));
         jtxtTotal.setText(String.format("Rs. %.2f", cSubTotal + cTax));
-        jtxtBarCode.setText(String.format("%.2f", cSubTotal + cTax));
     }
  
     public void Change() {
         double sum = 0;
-        double cash = Double.parseDouble(jtxtDisplay.getText());
         for (int i = 0; i < jTable1.getRowCount(); i++) {
             sum += Double.parseDouble(jTable1.getValueAt(i, 2).toString());
         }
         double cTax = (sum * 3.9) / 100;
-        jtxtChange.setText(String.format("Rs. %.2f", cash - (sum + cTax)));
+        double totalAmount = sum + cTax;
+ 
+        String cashInput = jtxtDisplay.getText().trim();
+        if (cashInput.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the cash amount given by the customer!", "Payment Validation", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+ 
+        try {
+            double cash = Double.parseDouble(cashInput);
+            
+            if (cash < totalAmount) {
+                JOptionPane.showMessageDialog(this, "Insufficient Cash! Total bill is Rs. " + String.format("%.2f", totalAmount) + ". Additional cash required.", "Payment Error", JOptionPane.ERROR_MESSAGE);
+                jtxtChange.setText("Rs. 0.00");
+                return;
+            }
+ 
+            double changeAmount = cash - totalAmount;
+            jtxtChange.setText(String.format("Rs. %.2f", changeAmount));
+            JOptionPane.showMessageDialog(this, "Payment Successful! Transaction Completed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+ 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid cash amount entered!", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
  
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        // Initialize all components
         jPanel1 = new javax.swing.JPanel();
         jbtnCrunchBurger = new javax.swing.JButton();
         jbtnBeefSeekhKabab = new javax.swing.JButton();
@@ -105,7 +135,6 @@ public class JavaPOS extends javax.swing.JPanel {
         jtxtBarCode = new javax.swing.JTextField();
         jLabel44 = new javax.swing.JLabel();
  
-        // Main panel setup
         setBackground(new java.awt.Color(30, 41, 59));
         setLayout(null);
  
@@ -114,7 +143,6 @@ public class JavaPOS extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel1.setLayout(null);
  
-        // Row 1 buttons
         setupButton(jbtnBeefSeekhKabab, "Kabab", this::jbtnBeefSeekhKababActionPerformed);
         jPanel1.add(jbtnBeefSeekhKabab); jbtnBeefSeekhKabab.setBounds(10, 10, 110, 100);
  
@@ -133,7 +161,6 @@ public class JavaPOS extends javax.swing.JPanel {
         setupButton(jbtnCrunchBurger, "Alfredo", this::jbtnCrunchBurgerActionPerformed);
         jPanel1.add(jbtnCrunchBurger); jbtnCrunchBurger.setBounds(610, 10, 110, 100);
  
-        // Row 1 labels
         addMenuLabel(jPanel1, "Beef Seekh Kabab", 10, 110); addMenuLabel(jPanel1, "Rs. 250/-", 10, 130);
         addMenuLabel(jPanel1, "Buffalo Wings", 130, 110);   addMenuLabel(jPanel1, "Rs. 470/-", 130, 130);
         addMenuLabel(jPanel1, "Chicken Biryani", 250, 110); addMenuLabel(jPanel1, "Rs. 350/-", 250, 130);
@@ -141,7 +168,6 @@ public class JavaPOS extends javax.swing.JPanel {
         addMenuLabel(jPanel1, "Classic Shahi Lassi", 490, 110); addMenuLabel(jPanel1, "Rs. 120/-", 490, 130);
         addMenuLabel(jPanel1, "Crunch Burger", 610, 110);   addMenuLabel(jPanel1, "Rs. 440/-", 610, 130);
  
-        // Row 2 buttons
         setupButton(jbtnDaalMakhni, "Fish & Chips", this::jbtnDaalMakhniActionPerformed);
         jPanel1.add(jbtnDaalMakhni); jbtnDaalMakhni.setBounds(10, 150, 110, 100);
  
@@ -160,7 +186,6 @@ public class JavaPOS extends javax.swing.JPanel {
         setupButton(jbtnLoadedFries, "Karahi", this::jbtnLoadedFriesActionPerformed);
         jPanel1.add(jbtnLoadedFries); jbtnLoadedFries.setBounds(610, 150, 110, 100);
  
-        // Row 2 labels
         addMenuLabel(jPanel1, "Daal Makhni", 10, 250);       addMenuLabel(jPanel1, "Rs. 170/-", 10, 270);
         addMenuLabel(jPanel1, "Fajita Supreme Pizza", 130, 250); addMenuLabel(jPanel1, "Rs. 900/-", 130, 270);
         addMenuLabel(jPanel1, "Fettuccine Alfredo", 250, 250); addMenuLabel(jPanel1, "Rs. 750/-", 250, 270);
@@ -168,7 +193,6 @@ public class JavaPOS extends javax.swing.JPanel {
         addMenuLabel(jPanel1, "Grilled Chicken", 490, 250);  addMenuLabel(jPanel1, "Rs. 500/-", 490, 270);
         addMenuLabel(jPanel1, "Loaded Fries", 610, 250);     addMenuLabel(jPanel1, "Rs. 350/-", 610, 270);
  
-        // Row 3 buttons
         setupButton(jbtnMintMargarita, "Naan", this::jbtnMintMargaritaActionPerformed);
         jPanel1.add(jbtnMintMargarita); jbtnMintMargarita.setBounds(10, 300, 110, 100);
  
@@ -187,7 +211,6 @@ public class JavaPOS extends javax.swing.JPanel {
         setupButton(jbtnTerragonBeefSteak, "Steak", this::jbtnTerragonBeefSteakActionPerformed);
         jPanel1.add(jbtnTerragonBeefSteak); jbtnTerragonBeefSteak.setBounds(610, 300, 110, 100);
  
-        // Row 3 labels
         addMenuLabel(jPanel1, "Mint Margarita", 10, 410);    addMenuLabel(jPanel1, "Rs. 200/-", 10, 430);
         addMenuLabel(jPanel1, "Grilled Sandwich", 130, 410); addMenuLabel(jPanel1, "Rs. 250/-", 130, 430);
         addMenuLabel(jPanel1, "Mutton Karahi", 250, 410);    addMenuLabel(jPanel1, "Rs. 650/-", 250, 430);
@@ -197,7 +220,7 @@ public class JavaPOS extends javax.swing.JPanel {
  
         add(jPanel1); jPanel1.setBounds(620, 10, 750, 460);
  
-        // ===== jPanel2: Numpad =====
+        // ===== jPanel2: Numpad (FIXED BUTTON PLACEMENTS) =====
         jPanel2.setBackground(new java.awt.Color(30, 41, 59));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel2.setLayout(null);
@@ -205,15 +228,18 @@ public class JavaPOS extends javax.swing.JPanel {
         setupNumBtn(jbtn7, "7", this::jbtn7ActionPerformed); jPanel2.add(jbtn7); jbtn7.setBounds(10, 10, 60, 70);
         setupNumBtn(jbtn8, "8", this::jbtn8ActionPerformed); jPanel2.add(jbtn8); jbtn8.setBounds(80, 10, 60, 70);
         setupNumBtn(jbtn9, "9", this::jbtn9ActionPerformed); jPanel2.add(jbtn9); jbtn9.setBounds(150, 10, 60, 70);
+        
         setupNumBtn(jbtn4, "4", this::jbtn4ActionPerformed); jPanel2.add(jbtn4); jbtn4.setBounds(10, 90, 60, 70);
         setupNumBtn(jbtn5, "5", this::jbtn5ActionPerformed); jPanel2.add(jbtn5); jbtn5.setBounds(80, 90, 60, 70);
         setupNumBtn(jbtn6, "6", this::jbtn6ActionPerformed); jPanel2.add(jbtn6); jbtn6.setBounds(150, 90, 60, 70);
+        
         setupNumBtn(jbtn1, "1", this::jbtn1ActionPerformed); jPanel2.add(jbtn1); jbtn1.setBounds(10, 170, 60, 70);
-        setupNumBtn(jbtn2, "2", this::jbtn2ActionPerformed); jPanel2.add(jbtn2); jbtn2.setBounds(80, 170, 60, 70);
+        setupNumBtn(jbtn2, "2", this::jbtn2ActionPerformed); jPanel2.add(jbtn2); jbtn2.setBounds(80, 170, 60, 70); // FIXED '2' POSITION
         setupNumBtn(jbtn3, "3", this::jbtn3ActionPerformed); jPanel2.add(jbtn3); jbtn3.setBounds(150, 170, 60, 70);
+        
         setupNumBtn(jbtn0, "0", this::jbtn0ActionPerformed); jPanel2.add(jbtn0); jbtn0.setBounds(10, 250, 60, 70);
         setupNumBtn(jbtnDot, ".", this::jbtnDotActionPerformed); jPanel2.add(jbtnDot); jbtnDot.setBounds(80, 250, 60, 70);
-        setupNumBtn(jbtnC, "C", this::jbtnCActionPerformed); jPanel2.add(jbtnC); jbtnC.setBounds(150, 250, 60, 70);
+        setupNumBtn(jbtnC, "C", this::jbtnCActionPerformed); jPanel2.add(jbtnC); jbtnC.setBounds(150, 250, 60, 70); // FIXED 'C' POSITION
  
         add(jPanel2); jPanel2.setBounds(10, 170, 230, 320);
  
@@ -300,17 +326,17 @@ public class JavaPOS extends javax.swing.JPanel {
  
         add(jPanel3); jPanel3.setBounds(10, 500, 1360, 200);
  
-        // BarCode
+        // BarCode Field
         jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 14));
         jLabel44.setForeground(new java.awt.Color(255, 255, 255));
         jLabel44.setText("BarCode/Receipt ID");
         add(jLabel44); jLabel44.setBounds(250, 390, 160, 20);
  
         jtxtBarCode.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        jtxtBarCode.setEditable(false); // Set to uneditable for structural integrity
         add(jtxtBarCode); jtxtBarCode.setBounds(250, 420, 360, 60);
     }
  
-    // Helper methods
     private void setupButton(javax.swing.JButton btn, String text, java.awt.event.ActionListener al) {
         btn.setFont(new java.awt.Font("Times New Roman", 1, 14));
         btn.setText(text);
@@ -354,7 +380,23 @@ public class JavaPOS extends javax.swing.JPanel {
     private void jbtnCActionPerformed(java.awt.event.ActionEvent evt) { jtxtDisplay.setText(""); jtxtChange.setText(""); }
  
     private void addItem(String name, double price) {
-        ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]{name, "1", price});
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int rowCount = model.getRowCount();
+        
+        for (int i = 0; i < rowCount; i++) {
+            if (model.getValueAt(i, 0).toString().equals(name)) {
+                int currentQty = Integer.parseInt(model.getValueAt(i, 1).toString());
+                int newQty = currentQty + 1;
+                
+                model.setValueAt(String.valueOf(newQty), i, 1);
+                model.setValueAt(newQty * price, i, 2);
+                
+                ItemCost();
+                return;
+            }
+        }
+        
+        model.addRow(new Object[]{name, "1", price});
         ItemCost();
     }
  
@@ -379,20 +421,31 @@ public class JavaPOS extends javax.swing.JPanel {
     private void jbtnTerragonBeefSteakActionPerformed(java.awt.event.ActionEvent evt) { addItem("Terragon Beef Steak", 750); }
  
     private void jbtnPayActionPerformed(java.awt.event.ActionEvent evt) {
-        if (jcboPayment.getSelectedItem().equals("Cash")) Change();
-        else { jtxtChange.setText(""); jtxtDisplay.setText(""); }
+        if (jTable1.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "The cart is empty!", "Cart Status", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+ 
+        if (jcboPayment.getSelectedItem().equals("Cash")) {
+            Change();
+        } else { 
+            jtxtChange.setText(""); 
+            jtxtDisplay.setText(""); 
+            JOptionPane.showMessageDialog(this, "Card Payment Accepted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
  
     private void jbtnResetActionPerformed(java.awt.event.ActionEvent evt) {
         ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
         jtxtChange.setText(""); jtxtTax.setText(""); jtxtSubTotal.setText("");
-        jtxtTotal.setText(""); jtxtDisplay.setText(""); jtxtBarCode.setText("");
+        jtxtTotal.setText(""); jtxtDisplay.setText("");
+        generateReceiptID(); // Refreshes and generates a brand new ID on Reset
     }
  
     private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             jTable1.print(JTable.PrintMode.NORMAL,
-                new MessageFormat("MuFaYa'S Cafe Receipt"),
+                new MessageFormat("MuFaYa'S Cafe Receipt (" + jtxtBarCode.getText() + ")"),
                 new MessageFormat("Page {0, number, integer}"));
         } catch (java.awt.print.PrinterException e) {
             System.err.format("Cannot Print %s%n", e.getMessage());
@@ -405,7 +458,11 @@ public class JavaPOS extends javax.swing.JPanel {
         if (row >= 0) {
             model.removeRow(row);
             ItemCost();
-            if (jcboPayment.getSelectedItem().equals("Cash")) Change();
+            if (jcboPayment.getSelectedItem().equals("Cash") && !jtxtDisplay.getText().trim().isEmpty()) {
+                Change();
+            } else {
+                jtxtChange.setText("");
+            }
         }
     }
  
