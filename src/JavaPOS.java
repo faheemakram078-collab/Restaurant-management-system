@@ -83,7 +83,6 @@ public class JavaPOS extends javax.swing.JPanel {
         jbtnChickenBiryani = new javax.swing.JButton();
         jbtnChickenHandi = new javax.swing.JButton();
         jbtnLassi = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
         jbtnLoadedFries = new javax.swing.JButton();
         jbtnGrilledChicken = new javax.swing.JButton();
         jbtnFishAndChips = new javax.swing.JButton();
@@ -143,84 +142,66 @@ public class JavaPOS extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel1.setLayout(null);
  
-        setupButton(jbtnBeefSeekhKabab, "Kabab", this::jbtnBeefSeekhKababActionPerformed);
-        jPanel1.add(jbtnBeefSeekhKabab); jbtnBeefSeekhKabab.setBounds(10, 10, 110, 100);
+        // Row 1 Buttons
+        setupButton(jbtnBeefSeekhKabab, "<html><center>Beef Seekh<br>Kabab<br>Rs. 250/-</center></html>", this::jbtnBeefSeekhKababActionPerformed);
+        jPanel1.add(jbtnBeefSeekhKabab); jbtnBeefSeekhKabab.setBounds(10, 10, 110, 130);
  
-        setupButton(jbtnBuffaloWings, "Wings", this::jbtnBuffaloWingsActionPerformed);
-        jPanel1.add(jbtnBuffaloWings); jbtnBuffaloWings.setBounds(130, 10, 110, 100);
+        setupButton(jbtnBuffaloWings, "<html><center>Buffalo<br>Wings<br>Rs. 470/-</center></html>", this::jbtnBuffaloWingsActionPerformed);
+        jPanel1.add(jbtnBuffaloWings); jbtnBuffaloWings.setBounds(130, 10, 110, 130);
  
-        setupButton(jbtnChickenBiryani, "Biryani", this::jbtnChickenBiryaniActionPerformed);
-        jPanel1.add(jbtnChickenBiryani); jbtnChickenBiryani.setBounds(250, 10, 110, 100);
+        setupButton(jbtnChickenBiryani, "<html><center>Chicken<br>Biryani<br>Rs. 350/-</center></html>", this::jbtnChickenBiryaniActionPerformed);
+        jPanel1.add(jbtnChickenBiryani); jbtnChickenBiryani.setBounds(250, 10, 110, 130);
  
-        setupButton(jbtnChickenHandi, "Handi", this::jbtnChickenHandiActionPerformed);
-        jPanel1.add(jbtnChickenHandi); jbtnChickenHandi.setBounds(370, 10, 110, 100);
+        setupButton(jbtnChickenHandi, "<html><center>Chicken<br>Handi<br>Rs. 320/-</center></html>", this::jbtnChickenHandiActionPerformed);
+        jPanel1.add(jbtnChickenHandi); jbtnChickenHandi.setBounds(370, 10, 110, 130);
  
-        setupButton(jbtnLassi, "Lassi", this::jbtnLassiActionPerformed);
-        jPanel1.add(jbtnLassi); jbtnLassi.setBounds(490, 10, 110, 100);
+        setupButton(jbtnLassi, "<html><center>Classic Shahi<br>Lassi<br>Rs. 120/-</center></html>", this::jbtnLassiActionPerformed);
+        jPanel1.add(jbtnLassi); jbtnLassi.setBounds(490, 10, 110, 130);
  
-        setupButton(jbtnCrunchBurger, "Alfredo", this::jbtnCrunchBurgerActionPerformed);
-        jPanel1.add(jbtnCrunchBurger); jbtnCrunchBurger.setBounds(610, 10, 110, 100);
+        setupButton(jbtnCrunchBurger, "<html><center>Crunch<br>Burger<br>Rs. 440/-</center></html>", this::jbtnCrunchBurgerActionPerformed);
+        jPanel1.add(jbtnCrunchBurger); jbtnCrunchBurger.setBounds(610, 10, 110, 130);
  
-        addMenuLabel(jPanel1, "Beef Seekh Kabab", 10, 110); addMenuLabel(jPanel1, "Rs. 250/-", 10, 130);
-        addMenuLabel(jPanel1, "Buffalo Wings", 130, 110);   addMenuLabel(jPanel1, "Rs. 470/-", 130, 130);
-        addMenuLabel(jPanel1, "Chicken Biryani", 250, 110); addMenuLabel(jPanel1, "Rs. 350/-", 250, 130);
-        addMenuLabel(jPanel1, "Chicken Handi", 370, 110);   addMenuLabel(jPanel1, "Rs. 320/-", 370, 130);
-        addMenuLabel(jPanel1, "Classic Shahi Lassi", 490, 110); addMenuLabel(jPanel1, "Rs. 120/-", 490, 130);
-        addMenuLabel(jPanel1, "Crunch Burger", 610, 110);   addMenuLabel(jPanel1, "Rs. 440/-", 610, 130);
+        // Row 2 Buttons
+        setupButton(jbtnDaalMakhni, "<html><center>Daal<br>Makhni<br>Rs. 170/-</center></html>", this::jbtnDaalMakhniActionPerformed);
+        jPanel1.add(jbtnDaalMakhni); jbtnDaalMakhni.setBounds(10, 155, 110, 130);
  
-        setupButton(jbtnDaalMakhni, "Fish & Chips", this::jbtnDaalMakhniActionPerformed);
-        jPanel1.add(jbtnDaalMakhni); jbtnDaalMakhni.setBounds(10, 150, 110, 100);
+        setupButton(jbtnFajitaSupremePizza, "<html><center>Fajita Supreme<br>Pizza<br>Rs. 900/-</center></html>", this::jbtnFajitaSupremePizzaActionPerformed);
+        jPanel1.add(jbtnFajitaSupremePizza); jbtnFajitaSupremePizza.setBounds(130, 155, 110, 130);
  
-        setupButton(jbtnFajitaSupremePizza, "Pizza", this::jbtnFajitaSupremePizzaActionPerformed);
-        jPanel1.add(jbtnFajitaSupremePizza); jbtnFajitaSupremePizza.setBounds(130, 150, 110, 100);
+        setupButton(jbtnFettuccineAlfredo, "<html><center>Fettuccine<br>Alfredo<br>Rs. 750/-</center></html>", this::jbtnFettuccineAlfredoActionPerformed);
+        jPanel1.add(jbtnFettuccineAlfredo); jbtnFettuccineAlfredo.setBounds(250, 155, 110, 130);
  
-        setupButton(jbtnFettuccineAlfredo, "Fries", this::jbtnFettuccineAlfredoActionPerformed);
-        jPanel1.add(jbtnFettuccineAlfredo); jbtnFettuccineAlfredo.setBounds(250, 150, 110, 100);
+        setupButton(jbtnFishAndChips, "<html><center>Fish &<br>Chips<br>Rs. 450/-</center></html>", this::jbtnFishAndChipsActionPerformed);
+        jPanel1.add(jbtnFishAndChips); jbtnFishAndChips.setBounds(370, 155, 110, 130);
  
-        setupButton(jbtnFishAndChips, "Margarita", this::jbtnFishAndChipsActionPerformed);
-        jPanel1.add(jbtnFishAndChips); jbtnFishAndChips.setBounds(370, 150, 110, 100);
+        setupButton(jbtnGrilledChicken, "<html><center>Grilled<br>Chicken<br>Rs. 500/-</center></html>", this::jbtnGrilledChickenActionPerformed);
+        jPanel1.add(jbtnGrilledChicken); jbtnGrilledChicken.setBounds(490, 155, 110, 130);
  
-        setupButton(jbtnGrilledChicken, "Sandwich", this::jbtnGrilledChickenActionPerformed);
-        jPanel1.add(jbtnGrilledChicken); jbtnGrilledChicken.setBounds(490, 150, 110, 100);
+        setupButton(jbtnLoadedFries, "<html><center>Loaded<br>Fries<br>Rs. 350/-</center></html>", this::jbtnLoadedFriesActionPerformed);
+        jPanel1.add(jbtnLoadedFries); jbtnLoadedFries.setBounds(610, 155, 110, 130);
  
-        setupButton(jbtnLoadedFries, "Karahi", this::jbtnLoadedFriesActionPerformed);
-        jPanel1.add(jbtnLoadedFries); jbtnLoadedFries.setBounds(610, 150, 110, 100);
+        // Row 3 Buttons
+        setupButton(jbtnMintMargarita, "<html><center>Mint<br>Margarita<br>Rs. 200/-</center></html>", this::jbtnMintMargaritaActionPerformed);
+        jPanel1.add(jbtnMintMargarita); jbtnMintMargarita.setBounds(10, 300, 110, 130);
  
-        addMenuLabel(jPanel1, "Daal Makhni", 10, 250);       addMenuLabel(jPanel1, "Rs. 170/-", 10, 270);
-        addMenuLabel(jPanel1, "Fajita Supreme Pizza", 130, 250); addMenuLabel(jPanel1, "Rs. 900/-", 130, 270);
-        addMenuLabel(jPanel1, "Fettuccine Alfredo", 250, 250); addMenuLabel(jPanel1, "Rs. 750/-", 250, 270);
-        addMenuLabel(jPanel1, "Fish & Chips", 370, 250);     addMenuLabel(jPanel1, "Rs. 450/-", 370, 270);
-        addMenuLabel(jPanel1, "Grilled Chicken", 490, 250);  addMenuLabel(jPanel1, "Rs. 500/-", 490, 270);
-        addMenuLabel(jPanel1, "Loaded Fries", 610, 250);     addMenuLabel(jPanel1, "Rs. 350/-", 610, 270);
+        setupButton(jbtnGrilledSandwitch, "<html><center>Grilled<br>Sandwich<br>Rs. 250/-</center></html>", this::jbtnGrilledSandwitchActionPerformed);
+        jPanel1.add(jbtnGrilledSandwitch); jbtnGrilledSandwitch.setBounds(130, 300, 110, 130);
  
-        setupButton(jbtnMintMargarita, "Naan", this::jbtnMintMargaritaActionPerformed);
-        jPanel1.add(jbtnMintMargarita); jbtnMintMargarita.setBounds(10, 300, 110, 100);
+        setupButton(jbtnMuttonKarahi, "<html><center>Mutton<br>Karahi<br>Rs. 650/-</center></html>", this::jbtnMuttonKarahiActionPerformed);
+        jPanel1.add(jbtnMuttonKarahi); jbtnMuttonKarahi.setBounds(250, 300, 110, 130);
  
-        setupButton(jbtnGrilledSandwitch, "Sandwich", this::jbtnGrilledSandwitchActionPerformed);
-        jPanel1.add(jbtnGrilledSandwitch); jbtnGrilledSandwitch.setBounds(130, 300, 110, 100);
+        setupButton(jbtnShawarma, "<html><center>Shawarma<br>Rs. 250/-</center></html>", this::jbtnShawarmaActionPerformed);
+        jPanel1.add(jbtnShawarma); jbtnShawarma.setBounds(370, 300, 110, 130);
  
-        setupButton(jbtnMuttonKarahi, "Karahi", this::jbtnMuttonKarahiActionPerformed);
-        jPanel1.add(jbtnMuttonKarahi); jbtnMuttonKarahi.setBounds(250, 300, 110, 100);
+        setupButton(jbtnSmashBeefBurger, "<html><center>Smash Beef<br>Burger<br>Rs. 450/-</center></html>", this::jbtnSmashBeefBurgerActionPerformed);
+        jPanel1.add(jbtnSmashBeefBurger); jbtnSmashBeefBurger.setBounds(490, 300, 110, 130);
  
-        setupButton(jbtnShawarma, "Shawarma", this::jbtnShawarmaActionPerformed);
-        jPanel1.add(jbtnShawarma); jbtnShawarma.setBounds(370, 300, 110, 100);
- 
-        setupButton(jbtnSmashBeefBurger, "Burger", this::jbtnSmashBeefBurgerActionPerformed);
-        jPanel1.add(jbtnSmashBeefBurger); jbtnSmashBeefBurger.setBounds(490, 300, 110, 100);
- 
-        setupButton(jbtnTerragonBeefSteak, "Steak", this::jbtnTerragonBeefSteakActionPerformed);
-        jPanel1.add(jbtnTerragonBeefSteak); jbtnTerragonBeefSteak.setBounds(610, 300, 110, 100);
- 
-        addMenuLabel(jPanel1, "Mint Margarita", 10, 410);    addMenuLabel(jPanel1, "Rs. 200/-", 10, 430);
-        addMenuLabel(jPanel1, "Grilled Sandwich", 130, 410); addMenuLabel(jPanel1, "Rs. 250/-", 130, 430);
-        addMenuLabel(jPanel1, "Mutton Karahi", 250, 410);    addMenuLabel(jPanel1, "Rs. 650/-", 250, 430);
-        addMenuLabel(jPanel1, "Shawarma", 370, 410);         addMenuLabel(jPanel1, "Rs. 250/-", 370, 430);
-        addMenuLabel(jPanel1, "Smash Beef Burger", 490, 410); addMenuLabel(jPanel1, "Rs. 450/-", 490, 430);
-        addMenuLabel(jPanel1, "Terragon Beef Steak", 610, 410); addMenuLabel(jPanel1, "Rs. 750/-", 610, 430);
+        setupButton(jbtnTerragonBeefSteak, "<html><center>Terragon Beef<br>Steak<br>Rs. 750/-</center></html>", this::jbtnTerragonBeefSteakActionPerformed);
+        jPanel1.add(jbtnTerragonBeefSteak); jbtnTerragonBeefSteak.setBounds(610, 300, 110, 130);
  
         add(jPanel1); jPanel1.setBounds(620, 10, 750, 460);
  
-        // ===== jPanel2: Numpad (FIXED BUTTON PLACEMENTS) =====
+        // ===== jPanel2: Numpad =====
         jPanel2.setBackground(new java.awt.Color(30, 41, 59));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel2.setLayout(null);
@@ -234,12 +215,12 @@ public class JavaPOS extends javax.swing.JPanel {
         setupNumBtn(jbtn6, "6", this::jbtn6ActionPerformed); jPanel2.add(jbtn6); jbtn6.setBounds(150, 90, 60, 70);
         
         setupNumBtn(jbtn1, "1", this::jbtn1ActionPerformed); jPanel2.add(jbtn1); jbtn1.setBounds(10, 170, 60, 70);
-        setupNumBtn(jbtn2, "2", this::jbtn2ActionPerformed); jPanel2.add(jbtn2); jbtn2.setBounds(80, 170, 60, 70); // FIXED '2' POSITION
+        setupNumBtn(jbtn2, "2", this::jbtn2ActionPerformed); jPanel2.add(jbtn2); jbtn2.setBounds(80, 170, 60, 70);
         setupNumBtn(jbtn3, "3", this::jbtn3ActionPerformed); jPanel2.add(jbtn3); jbtn3.setBounds(150, 170, 60, 70);
         
         setupNumBtn(jbtn0, "0", this::jbtn0ActionPerformed); jPanel2.add(jbtn0); jbtn0.setBounds(10, 250, 60, 70);
         setupNumBtn(jbtnDot, ".", this::jbtnDotActionPerformed); jPanel2.add(jbtnDot); jbtnDot.setBounds(80, 250, 60, 70);
-        setupNumBtn(jbtnC, "C", this::jbtnCActionPerformed); jPanel2.add(jbtnC); jbtnC.setBounds(150, 250, 60, 70); // FIXED 'C' POSITION
+        setupNumBtn(jbtnC, "C", this::jbtnCActionPerformed); jPanel2.add(jbtnC); jbtnC.setBounds(150, 250, 60, 70);
  
         add(jPanel2); jPanel2.setBounds(10, 170, 230, 320);
  
@@ -333,12 +314,12 @@ public class JavaPOS extends javax.swing.JPanel {
         add(jLabel44); jLabel44.setBounds(250, 390, 160, 20);
  
         jtxtBarCode.setFont(new java.awt.Font("Segoe UI", 1, 18));
-        jtxtBarCode.setEditable(false); // Set to uneditable for structural integrity
+        jtxtBarCode.setEditable(false);
         add(jtxtBarCode); jtxtBarCode.setBounds(250, 420, 360, 60);
     }
  
     private void setupButton(javax.swing.JButton btn, String text, java.awt.event.ActionListener al) {
-        btn.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        btn.setFont(new java.awt.Font("Times New Roman", 1, 12));
         btn.setText(text);
         btn.addActionListener(al);
     }
@@ -347,14 +328,6 @@ public class JavaPOS extends javax.swing.JPanel {
         btn.setFont(new java.awt.Font("Times New Roman", 1, 36));
         btn.setText(text);
         btn.addActionListener(al);
-    }
- 
-    private void addMenuLabel(javax.swing.JPanel panel, String text, int x, int y) {
-        javax.swing.JLabel lbl = new javax.swing.JLabel(text);
-        lbl.setFont(new java.awt.Font("Arial", 1, 13));
-        lbl.setForeground(new java.awt.Color(255, 255, 255));
-        panel.add(lbl);
-        lbl.setBounds(x, y, 120, 18);
     }
  
     private void setupWhiteLabel(javax.swing.JLabel lbl, String text, java.awt.Font font) {
@@ -406,7 +379,6 @@ public class JavaPOS extends javax.swing.JPanel {
     private void jbtnChickenHandiActionPerformed(java.awt.event.ActionEvent evt)      { addItem("Chicken Handi", 320); }
     private void jbtnLassiActionPerformed(java.awt.event.ActionEvent evt)             { addItem("Classic Shahi Lassi", 120); }
     private void jbtnCrunchBurgerActionPerformed(java.awt.event.ActionEvent evt)      { addItem("Crunch Burger", 440); }
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)             { }
     private void jbtnDaalMakhniActionPerformed(java.awt.event.ActionEvent evt)        { addItem("Daal Makhni", 170); }
     private void jbtnFajitaSupremePizzaActionPerformed(java.awt.event.ActionEvent evt){ addItem("Fajita Supreme Pizza", 900); }
     private void jbtnFettuccineAlfredoActionPerformed(java.awt.event.ActionEvent evt) { addItem("Fettuccine Alfredo", 750); }
@@ -439,7 +411,7 @@ public class JavaPOS extends javax.swing.JPanel {
         ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
         jtxtChange.setText(""); jtxtTax.setText(""); jtxtSubTotal.setText("");
         jtxtTotal.setText(""); jtxtDisplay.setText("");
-        generateReceiptID(); // Refreshes and generates a brand new ID on Reset
+        generateReceiptID();
     }
  
     private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,7 +439,7 @@ public class JavaPOS extends javax.swing.JPanel {
     }
  
     // Variables declaration
-    private javax.swing.JButton jButton19, jbtnBeefSeekhKabab, jbtnBuffaloWings, jbtnChickenBiryani;
+    private javax.swing.JButton jbtnBeefSeekhKabab, jbtnBuffaloWings, jbtnChickenBiryani;
     private javax.swing.JButton jbtnChickenHandi, jbtnLassi, jbtnCrunchBurger, jbtnDaalMakhni;
     private javax.swing.JButton jbtnFajitaSupremePizza, jbtnFettuccineAlfredo, jbtnFishAndChips;
     private javax.swing.JButton jbtnGrilledChicken, jbtnLoadedFries, jbtnMintMargarita;
